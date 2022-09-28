@@ -1,5 +1,6 @@
 package com.example.contact;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,11 +10,10 @@ import java.util.ArrayList;
 
 public class Database {
 
-    private final SQLiteOpenHelper open_db;
     private final SQLiteDatabase db;
 
     public Database(Context context) {
-        open_db = new DbOpener(context, "db.sql", null, 1);
+        SQLiteOpenHelper open_db = new DbOpener(context, "db.sql", null, 1);
         db = open_db.getWritableDatabase();
         db.execSQL("CREATE table IF NOT EXISTS contact(number TEXT, name TEXT)");
     }
@@ -23,11 +23,51 @@ public class Database {
         ArrayList<Contact> contacts = new ArrayList<>();
 
         if (cursor.getCount() > 0) {
-            String name = cursor.getString(cursor.getColumnIndex("name"));
-            String number = cursor.getString(cursor.getColumnIndex("number"));
+            cursor.moveToFirst();
+            do {
+                String name = cursor.getString(1);
+                String number = cursor.getString(0);
 
-            contacts.add(new Contact(name, number));
+                contacts.add(new Contact(name, number));
+            } while (cursor.moveToNext());
         }
         return contacts;
     }
+
+    public void addContact(Contact contact) {
+        ContentValues data = new ContentValues();
+
+        data.put("name", contact.getName());
+        data.put("number", contact.getNumber());
+
+        db.insert("contact", null, data);
+    }
+
+    public void updateContact(Contact newContact) {
+        ContentValues data = new ContentValues();
+
+        data.put("name", newContact.getName());
+        data.put("number", newContact.getNumber());
+        db.update("contact", data, "name='" + newContact.getName() + "'", null);
+
+    }
+
+    public Contact getContact(String name) throws Exception {
+        Cursor cursor = db.rawQuery("select * from contact where name like '%" + name + "%'", null);
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            String cursorName = cursor.getString(1);
+            String number = cursor.getString(0);
+
+            return new Contact(cursorName, number);
+        }
+
+        throw new Exception("User Not Found");
+    }
+
+    public void deleteContact(String name) {
+        db.delete("contact", "name='" + name + "'", null);
+    }
+
 }
