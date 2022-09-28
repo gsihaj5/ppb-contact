@@ -17,4 +17,5 @@
     <string name="delete">Delete</string>
     <string name="clear_search">Clear Search</string>
     <string name="create">Create</string>
+    <string name="update">update</string>
 </resources>

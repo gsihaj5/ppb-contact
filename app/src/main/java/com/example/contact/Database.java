@@ -43,12 +43,12 @@ public class Database {
         db.insert("contact", null, data);
     }
 
-    public void updateContact(Contact newContact) {
+    public void updateContact(String oldName, Contact newContact) {
         ContentValues data = new ContentValues();
 
         data.put("name", newContact.getName());
         data.put("number", newContact.getNumber());
-        db.update("contact", data, "name='" + newContact.getName() + "'", null);
+        db.update("contact", data, "name='" + oldName + "'", null);
 
     }
 

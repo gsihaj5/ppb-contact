@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -27,15 +31,22 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.contact_list, parent, false);
         }
 
-        TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView number = (TextView) convertView.findViewById(R.id.number);
-        Button buttonDelete = (Button) convertView.findViewById(R.id.delete);
+        TextInputEditText name = (TextInputEditText) convertView.findViewById(R.id.name);
+        TextInputEditText number = (TextInputEditText) convertView.findViewById(R.id.number);
+
+        ImageButton buttonDelete = (ImageButton) convertView.findViewById(R.id.delete);
+        ImageButton buttonUpdate = (ImageButton) convertView.findViewById(R.id.update);
         name.setText(contact.getName());
         number.setText(contact.getNumber());
 
         buttonDelete.setOnClickListener(view -> {
             remove(contact);
             database.deleteContact(contact.getName());
+        });
+
+        buttonUpdate.setOnClickListener(view -> {
+            database.updateContact(contact.getName(), new Contact(name.getText().toString(), number.getText().toString()));
+            Toast.makeText(view.getContext(), contact.getName() + " updated to " + name.getText().toString(), Toast.LENGTH_LONG).show();
         });
 
         return convertView;
