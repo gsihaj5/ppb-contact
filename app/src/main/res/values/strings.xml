@@ -16,4 +16,5 @@
     <string name="name">Name :</string>
     <string name="delete">Delete</string>
     <string name="clear_search">Clear Search</string>
+    <string name="create">Create</string>
 </resources>

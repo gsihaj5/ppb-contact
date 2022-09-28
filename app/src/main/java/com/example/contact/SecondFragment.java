@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,22 @@ public class SecondFragment extends Fragment {
 
         db = new Database(getContext());
 
+        binding.createBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name = String.valueOf(binding.namaInput.getText());
+                        String number = String.valueOf(binding.telpInput.getText());
+                        Contact contact = new Contact(name, number);
+
+                        db.addContact(contact);
+                        Toast.makeText(view.getContext(), "Created", Toast.LENGTH_LONG).show();
+
+                        NavHostFragment.findNavController(SecondFragment.this)
+                                .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                    }
+                }
+        );
     }
 
     @Override
