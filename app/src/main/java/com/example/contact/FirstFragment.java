@@ -2,12 +2,14 @@ package com.example.contact;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -92,6 +94,15 @@ public class FirstFragment extends Fragment {
 
         final TextInputEditText namaInput = addContactModal.findViewById(R.id.nama_input);
         final TextInputEditText telpInput = addContactModal.findViewById(R.id.telp_input);
+        final Button camInput = addContactModal.findViewById(R.id.open_cam);
+        camInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent camIntent = new Intent(view.getContext(), CameraActivity.class);
+                startActivity(camIntent);
+            }
+        });
+
 
         dialog.setCancelable(true)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

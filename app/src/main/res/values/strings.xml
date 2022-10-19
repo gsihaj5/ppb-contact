@@ -18,4 +18,7 @@
     <string name="clear_search">Clear Search</string>
     <string name="create">Create</string>
     <string name="update">update</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="cam">CAM</string>
+    <string name="take_pic">take pic</string>
 </resources>
